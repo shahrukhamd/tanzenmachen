@@ -77,6 +77,7 @@
         }
     </script>
 </head>
+
 <body class="bg-cream text-zinc-900 min-h-screen flex flex-col items-center justify-center p-6 selection:bg-zinc-900 selection:text-white font-sans antialiased">
 
     <main class="w-full max-w-md mx-auto flex flex-col items-center text-center space-y-5 py-8">
@@ -109,8 +110,7 @@
         <div class="max-w-xs sm:max-w-sm text-center px-2">
             <p class="text-[#27272A] text-lg sm:text-[1.125rem] font-normal leading-snug">
                 Chasing stories behind dancers.<br>
-                Documenting, vibing, learning, and<br>
-                sharing.
+                Documenting, vibing, learning, and sharing.
             </p>
         </div>
 
@@ -171,12 +171,24 @@
             </a>
 
         </div>
+
+        <!-- YouTube Playlist Embed Frame -->
+        <div class="w-full aspect-video rounded-2xl overflow-hidden bg-zinc-900 border-2 border-zinc-900 shadow-[3.5px_4.5px_0px_0px_#111111] mt-2">
+            <iframe 
+                class="w-full h-full" 
+                src="https://www.youtube.com/embed/videoseries?si=wX9xh2iojX625ket&amp;list=PLJwxaQ-rg0KA" 
+                title="Tanzen Machen Playlist" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
     </main>
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
         Opening app...
     </div>
-
 </body>
 </html>
