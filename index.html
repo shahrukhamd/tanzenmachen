@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanzen Machen</title>
+    <meta name="description" content="Chasing stories behind dancers. Documenting, vibing, learning, and sharing.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF8EE',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        /**
+         * Deep Linking Handler
+         * Attempts to launch mobile native apps before falling back to browser URL
+         */
+        function handleDeepLink(e, appUri, webUrl, androidIntent) {
+            e.preventDefault();
+            
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const isAndroid = /android/i.test(userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+
+            showToast("Opening app...");
+
+            if (isAndroid && androidIntent) {
+                // Android explicit Intent
+                window.location.href = androidIntent;
+            } else if (isIOS && appUri) {
+                // iOS custom scheme with browser fallback timer
+                const startTime = Date.now();
+                window.location.href = appUri;
+                
+                setTimeout(() => {
+                    if (Date.now() - startTime < 2200) {
+                        window.location.href = webUrl;
+                    }
+                }, 1500);
+            } else {
+                // Desktop or browser fallback
+                window.location.href = webUrl;
+            }
+        }
+
+        /**
+         * Minimalist Toast UI feedback
+         */
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.innerText = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 1800);
+        }
+    </script>
+</head>
+<body class="bg-cream text-zinc-900 min-h-screen flex flex-col items-center justify-center p-6 selection:bg-zinc-900 selection:text-white font-sans antialiased">
+
+    <main class="w-full max-w-md mx-auto flex flex-col items-center text-center space-y-5 py-8">
+        
+        <!-- Avatar / Logo Frame with Double-Ring Offset Shadow Effect -->
+        <div class="relative my-2">
+            <!-- Double ring and offset shadow wrapper -->
+            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-black border-2 border-black shadow-[4px_5px_0px_0px_#111111] overflow-hidden flex items-center justify-center p-[3px]">
+                <!-- Replace 'logo.png' with your local logo path -->
+                <img 
+                    src="img/TM_logo.webp" 
+                    alt="Tanzen Machen Logo" 
+                    class="w-full h-full object-cover rounded-full bg-zinc-900" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/300x300/111111/FF8800?text=TM';"
+                />
+            </div>
+        </div>
+
+        <!-- Title & Handle Section -->
+        <div class="space-y-1">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight leading-tight">
+                Tanzen Machen
+            </h1>
+            <p class="text-[#6B7280] font-semibold text-lg sm:text-xl tracking-normal">
+                @tanzenmachen
+            </p>
+        </div>
+
+        <!-- Bio Description Section -->
+        <div class="max-w-xs sm:max-w-sm text-center px-2">
+            <p class="text-[#27272A] text-lg sm:text-[1.125rem] font-normal leading-snug">
+                Chasing stories behind dancers.<br>
+                Documenting, vibing, learning, and<br>
+                sharing.
+            </p>
+        </div>
+
+        <!-- Social Action Buttons Grid -->
+        <div class="flex items-center justify-center gap-5 pt-3">
+            
+            <!-- YouTube Button -->
+            <a href="https://www.youtube.com/@tanzenmachen"
+               onclick="handleDeepLink(
+                    event, 
+                    'vnd.youtube://www.youtube.com/@tanzenmachen', 
+                    'https://www.youtube.com/@tanzenmachen', 
+                    'intent://www.youtube.com/@tanzenmachen#Intent;package=com.google.android.youtube;scheme=https;end;'
+               )"
+               aria-label="Tanzen Machen YouTube Channel"
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+                <svg class="w-8 h-8 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                    <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#FFFFFF"/>
+                </svg>
+            </a>
+
+            <!-- Instagram Button -->
+            <a href="https://www.instagram.com/tanzenmachen/"
+               onclick="handleDeepLink(
+                    event, 
+                    'instagram://user?username=tanzenmachen', 
+                    'https://www.instagram.com/tanzenmachen/', 
+                    'intent://instagram.com/_u/tanzenmachen#Intent;package=com.instagram.android;scheme=https;end;'
+               )"
+               aria-label="Tanzen Machen Instagram Profile"
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+                <svg class="w-8 h-8 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
+                    <radialGradient id="igGrad" cx="30%" cy="107%" r="125%">
+                        <stop offset="0%" stop-color="#fdf497" />
+                        <stop offset="5%" stop-color="#fdf497" />
+                        <stop offset="45%" stop-color="#fd5949" />
+                        <stop offset="60%" stop-color="#d6249f" />
+                        <stop offset="90%" stop-color="#285AEB" />
+                    </radialGradient>
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="url(#igGrad)"/>
+                </svg>
+            </a>
+
+            <!-- TikTok Button -->
+            <a href="https://www.tiktok.com/@tanzenmachen"
+               onclick="handleDeepLink(
+                    event, 
+                    'snssdk1233://user/profile/@tanzenmachen', 
+                    'https://www.tiktok.com/@tanzenmachen', 
+                    'intent://www.tiktok.com/@tanzenmachen#Intent;package=com.zhiliaoapp.musically;scheme=https;end;'
+               )"
+               aria-label="Tanzen Machen TikTok Profile"
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+                <svg class="w-7 h-7 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.87 2.87 2.87 0 0 1-2.88-2.87 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.11v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.6a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.05a8.28 8.28 0 0 0 4.76 1.48V7.08a4.84 4.84 0 0 1-1.00-.39z" fill="#111111"/>
+                </svg>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
+        Opening app...
+    </div>
+
+</body>
+</html>
