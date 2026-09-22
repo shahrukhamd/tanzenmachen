@@ -28,54 +28,12 @@
         }
     </script>
 
-    <script>
-        /**
-         * Deep Linking Handler
-         * Attempts to launch mobile native apps before falling back to browser URL
-         */
-        function handleDeepLink(e, appUri, webUrl, androidIntent) {
-            e.preventDefault();
-            
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const isAndroid = /android/i.test(userAgent);
-            const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-
-            showToast("Opening app...");
-
-            if (isAndroid && androidIntent) {
-                // Android explicit Intent
-                window.location.href = androidIntent;
-            } else if (isIOS && appUri) {
-                // iOS custom scheme with browser fallback timer
-                const startTime = Date.now();
-                window.location.href = appUri;
-                
-                setTimeout(() => {
-                    if (Date.now() - startTime < 2200) {
-                        window.location.href = webUrl;
-                    }
-                }, 1500);
-            } else {
-                // Desktop or browser fallback
-                window.location.href = webUrl;
-            }
-        }
-
-        /**
-         * Minimalist Toast UI feedback
-         */
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            toast.innerText = message;
-            toast.classList.remove('opacity-0', 'pointer-events-none');
-            toast.classList.add('opacity-100');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100');
-                toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 1800);
-        }
-    </script>
+    <!--
+      No deep-link JS here on purpose. A plain https:// link to the official
+      profile URL is what lets iOS Universal Links / Android App Links open
+      the native app directly — see the note at the end of the chat for why
+      the onclick + custom-scheme + timer approach was removed.
+    -->
 </head>
 
 <body class="bg-cream text-zinc-900 min-h-screen flex flex-col items-center justify-center p-6 selection:bg-zinc-900 selection:text-white font-sans antialiased">
@@ -85,7 +43,7 @@
         <!-- Avatar / Logo Frame with Double-Ring Offset Shadow Effect -->
         <div class="relative my-2">
             <!-- Double ring and offset shadow wrapper -->
-            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-black border-2 border-black shadow-[4px_5px_0px_0px_#111111] overflow-hidden flex items-center justify-center p-[3px]">
+            <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-black border-2 border-black overflow-hidden flex items-center justify-center p-[3px]">
                 <!-- Replace 'logo.png' with your local logo path -->
                 <img 
                     src="img/TM_logo.webp" 
@@ -119,14 +77,8 @@
             
             <!-- YouTube Button -->
             <a href="https://www.youtube.com/@tanzenmachen"
-               onclick="handleDeepLink(
-                    event, 
-                    'vnd.youtube://www.youtube.com/@tanzenmachen', 
-                    'https://www.youtube.com/@tanzenmachen', 
-                    'intent://www.youtube.com/@tanzenmachen#Intent;package=com.google.android.youtube;scheme=https;end;'
-               )"
                aria-label="Tanzen Machen YouTube Channel"
-               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 transition-all duration-150 ease-out group">
                 <svg class="w-8 h-8 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
                     <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#FFFFFF"/>
@@ -135,14 +87,8 @@
 
             <!-- Instagram Button -->
             <a href="https://www.instagram.com/tanzenmachen/"
-               onclick="handleDeepLink(
-                    event, 
-                    'instagram://user?username=tanzenmachen', 
-                    'https://www.instagram.com/tanzenmachen/', 
-                    'intent://instagram.com/_u/tanzenmachen#Intent;package=com.instagram.android;scheme=https;end;'
-               )"
                aria-label="Tanzen Machen Instagram Profile"
-               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 transition-all duration-150 ease-out group">
                 <svg class="w-8 h-8 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
                     <radialGradient id="igGrad" cx="30%" cy="107%" r="125%">
                         <stop offset="0%" stop-color="#fdf497" />
@@ -157,14 +103,8 @@
 
             <!-- TikTok Button -->
             <a href="https://www.tiktok.com/@tanzenmachen"
-               onclick="handleDeepLink(
-                    event, 
-                    'snssdk1233://user/profile/@tanzenmachen', 
-                    'https://www.tiktok.com/@tanzenmachen', 
-                    'intent://www.tiktok.com/@tanzenmachen#Intent;package=com.zhiliaoapp.musically;scheme=https;end;'
-               )"
                aria-label="Tanzen Machen TikTok Profile"
-               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] transition-all duration-150 ease-out group">
+               class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white border-[2.5px] border-zinc-900 flex items-center justify-center shadow-[3.5px_4.5px_0px_0px_#111111] hover:shadow-[4.5px_5.5px_0px_0px_#111111] hover:-translate-y-0.5 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#111111] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-900 transition-all duration-150 ease-out group">
                 <svg class="w-7 h-7 transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="none">
                     <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.87 2.87 2.87 0 0 1-2.88-2.87 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.82.11v-3.5a6.37 6.37 0 0 0-.82-.05A6.34 6.34 0 0 0 3.15 15.6a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V9.05a8.28 8.28 0 0 0 4.76 1.48V7.08a4.84 4.84 0 0 1-1.00-.39z" fill="#111111"/>
                 </svg>
@@ -186,9 +126,23 @@
         </div>
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300">
-        Opening app...
-    </div>
+    <!-- Purely informational — no redirects. Shows a tip only when we detect
+         we're inside another app's in-app browser, where no amount of JS or
+         custom schemes can force-open a different app (an OS-level, not a
+         code-level, limitation). -->
+    <p id="webview-hint" hidden class="max-w-xs sm:max-w-sm mx-auto -mt-1 px-3 py-2 text-xs text-zinc-500 bg-zinc-100 border border-zinc-200 rounded-lg">
+        Viewing this inside another app? Tap the browser icon (often ⋯ or a compass) and choose "Open in browser" so these links can jump straight into the app.
+    </p>
+
+    <script>
+        (function () {
+            var ua = navigator.userAgent || '';
+            var inAppBrowser = /Instagram|FBAN|FBAV|TikTok|musical_ly|Snapchat|Line\//i.test(ua);
+            if (inAppBrowser) {
+                var hint = document.getElementById('webview-hint');
+                if (hint) hint.hidden = false;
+            }
+        })();
+    </script>
 </body>
 </html>
